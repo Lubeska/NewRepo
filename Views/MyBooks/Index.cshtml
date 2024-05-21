@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Books.Models.MyBooks>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>My Books</h1>
+
+<style>
+    .fixed-size-image {
+        width: 140px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .custom-text {
+        color: #009792;
+    }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Front Page</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year Published</th>
+
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img src="@Url.Content(item.Book.FrontPage)" class="fixed-size-image" />
+            </td>
+            <td>@item.Book.Title</td>
+            <td>@item.Book.Author.FullName</td>
+            <td>@item.Book.YearPublished</td>
+            <td>
+                | <a asp-action="Details" asp-route-id="@item.Id" class="custom-text">Details</a> | 
+                <a asp-action="Delete" asp-route-id="@item.Id" class="custom-text">Delete</a> |
+                <a class="custom-text review-link" href="/MyBooks/Details/@item.Id#addReviewSection">Review</a> |
+            </td>            
+        </tr>
+}
+    </tbody>
+</table>
+

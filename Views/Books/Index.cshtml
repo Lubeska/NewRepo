@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Books.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Books</h1>
+
+<style>
+    .fixed-size-image {
+        width: 140px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .custom-button {
+        background-color: #009792;
+        color: #ffffff;
+        border: none;
+    }
+
+    .custom-button:hover {
+        background-color: #007f70; 
+        color: #ffffff; 
+    }
+
+    .custom-text {
+        color: #009792;
+    }
+
+    .search-bar {
+        display: inline-block;
+        margin-right: 10px;
+    }
+</style>
+
+<form method="get" asp-action="Index">
+    <div class="search-bar">
+        <label for="authorName">Author:</label>
+        <input type="text" name="authorName" class="form-control" value="@ViewData["AuthorFilter"]" style="width: 150px;" />
+    </div>
+    <div class="search-bar">
+        <label for="bookGenre">Genre:</label>
+        <input type="text" name="bookGenre" class="form-control" value="@ViewData["GenreFilter"]" style="width: 150px;" />
+    </div>
+    <div class="search-bar">
+        <label for="searchString">Title:</label>
+        <input type="text" name="searchString" class="form-control" value="@ViewData["TitleFilter"]" style="width: 150px;" />
+    </div>
+    <div class="search-bar">
+        <button type="submit" class="btn btn-primary custom-button">Filter</button>
+        <a asp-action="Index" class="btn btn-secondary custom-button">Reset</a>
+    </div>
+</form>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary custom-button">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FrontPage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearPublished)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img src="@Url.Content(item.FrontPage)" class="fixed-size-image" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                <a asp-controller="Authors" asp-action="Details" asp-route-id="@item.AuthorId" class="custom-text">@Html.DisplayFor(modelItem => item.Author.FullName)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YearPublished)
+            </td>          
+            <td>
+                @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+                {
+                    @: |
+                    <a href="javascript:void(0);" class="custom-text" onclick="buyBook(@item.Id)">Buy</a>
+                }
+                | <a asp-action="Details" asp-route-id="@item.Id" class="custom-text">Details</a> |
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="custom-text">Delete</a>
+                }
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    @: |
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="custom-text">Edit</a>
+                    @: |
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    function buyBook(bookId) {
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = '/Books/Buy';
+
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'id';
+        input.value = bookId;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>

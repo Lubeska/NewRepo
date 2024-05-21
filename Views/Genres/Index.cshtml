@@ -1,0 +1,192 @@
+﻿@model IEnumerable<Books.Models.Genre>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Genres</h1>
+
+<style>
+    .custom-button {
+        background-color: #009792;
+        color: #ffffff; 
+        border: none;
+    }
+
+    .custom-button:hover {
+        background-color: #007f70; 
+        color: #ffffff;
+    }
+
+    .custom-text {
+        color: #009792;
+    }
+</style>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary custom-button">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GenreName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GenreName)
+            </td>
+
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+                
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="custom-text">Edit</a>
+                }
+                | <a asp-action="Details" asp-route-id="@item.Id" class="custom-text">Details</a> |
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="custom-text">Delete</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

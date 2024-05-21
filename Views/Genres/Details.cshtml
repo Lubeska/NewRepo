@@ -1,0 +1,45 @@
+﻿@model Books.Models.Genre
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<style>
+    .custom-text {
+        color: #009792;
+    }
+</style>
+
+<div>
+    <h4>Genre</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GenreName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GenreName)
+        </dd>
+        <dt class="col-sm-2">
+            Books
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var book in Model.BookGenres)
+            {
+                <a asp-controller="Genres" asp-action="Details" asp-route-id="@book.BookId" class="custom-text">
+                    @book.Book.Title
+                </a>
+                <br />
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="custom-text">Edit</a>
+    }
+    | <a asp-action="Index" class="custom-text">Back to List</a>
+</div>

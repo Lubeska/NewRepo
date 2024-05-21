@@ -1,0 +1,111 @@
+﻿@model Books.Models.Book
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<style>
+    .fixed-size-image {
+        width: 325px;
+        height: 500px;
+    }
+
+    .custom-button {
+        background-color: #009792;
+        color: #ffffff;
+        border: none;
+    }
+
+    .custom-button:hover {
+        background-color: #007f70;
+        color: #ffffff;
+    }
+
+    .custom-text {
+        color: #009792;
+    }
+</style>
+
+<div>
+    <h4>Book</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FrontPage)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="@Url.Content(Model.FrontPage)" class="fixed-size-image" />
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.YearPublished)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.YearPublished)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumPages)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NumPages)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Publisher)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Publisher)
+        </dd>
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Author.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            Genres
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var genre in Model.BookGenre)
+            {
+                <a asp-controller="Genres" asp-action="Details" asp-route-id="@genre.GenreId" class="custom-text">
+                    @genre.Genre.GenreName
+                </a>
+                <br />
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Reviews
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var review in ViewData["Reviews"] as List<Review>)
+            {
+                <li>
+                    <strong>@review.AppUser</strong> - @review.Comment (Rating: @review.Rating)
+                </li>
+            }
+        </dd>
+    </dl>
+</div>
+
+
+<div>
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="custom-text">Edit</a>
+    }
+    | <a asp-action="Index" class="custom-text">Back to List</a>
+</div>

@@ -1,0 +1,168 @@
+﻿@model IEnumerable<Books.Models.Author>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Authors</h1>
+
+<style>
+    .custom-button {
+        background-color: #009792;
+        color: #ffffff;
+        border: none;
+    }
+
+    .custom-button:hover {
+        background-color: #007f70; 
+        color: #ffffff; 
+    }
+
+    .custom-text {
+        color: #009792;
+    }
+
+    .search-bar {
+        display: inline-block;
+        margin-right: 10px;
+    }
+</style>
+
+<form method="get" asp-action="Index">
+    <div class="search-bar">
+        <label for="firstName">First Name:</label>
+        <input type="text" name="firstName" class="form-control" value="@ViewBag.FirstName" />
+    </div>
+    <div class="search-bar">
+        <label for="lastName">Last Name:</label>
+        <input type="text" name="lastName" class="form-control" value="@ViewBag.LastName" />
+    </div>
+    <div class="search-bar">
+        <button type="submit" class="btn btn-primary custom-button">Filter</button>
+        <a asp-action="Index" class="btn btn-secondary custom-button">Reset</a>
+    </div>
+</form>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary custom-button">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                
+            </td>
+            <td>
+                
+            </td>
+            <td>
+                
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+                
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+            
+            </td>
+            <td>
+                | <a asp-action="Details" asp-route-id="@item.Id" class="custom-text">Details</a> |
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="custom-text">Delete</a>  
+                    @: |
+                }
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="custom-text">Edit</a>
+                    @: |
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
